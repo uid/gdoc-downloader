@@ -66,13 +66,12 @@ are stored locally, not in Google Docs. So you do not need to put everything in 
 
 Here is how multiple people can simulataneously edit and compile LaTeX files using these scripts:
 
-1. Create a Google Drive directory and make it editable by anyone with the link
-2. Create a Dropbox folder shared amongst all co-authors.
-3. Put the scripts in this repository into the shared Dropbox folder.
-4. Put auxiliary files (e.g., style and image files) into the shared Dropbox folder.
-5. Create an arbitrary number of Google Docs representing LaTeX files ([example](https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit)), and add their URLs and filenames to `parallel_download_gdocs.py`.
-6. Now all co-authors can simultaneously edit without conflicts.
-7. To compile a PDF, run `make` in the shared Dropbox folder (see above).
+1. Create a Dropbox folder shared amongst all co-authors.
+2. Put the scripts in this repository into the shared Dropbox folder.
+3. Put auxiliary files (e.g., style and image files) into the shared Dropbox folder.
+4. Create Google Docs representing LaTeX files ([example](https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit)), make them world-writable, and add their URLs and filenames to `parallel_download_gdocs.py`.
+5. Now all co-authors can simultaneously edit the Google Docs online without conflicts.
+6. To compile a PDF, run `make` in the shared Dropbox folder.
 
 
 The benefits of this workflow over traditional version control systems are:
