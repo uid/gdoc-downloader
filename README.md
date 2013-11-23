@@ -47,7 +47,7 @@ third as `conclusion.tex`.
 This script terminates only when **all** of the files have been downloaded.
 
 
-### Collaborative LaTeX workflow
+### Downloading and compiling LaTeX
 
 Run `make` in the top-level directory to execute the following contents of the `Makefile`:
 
@@ -55,13 +55,16 @@ Run `make` in the top-level directory to execute the following contents of the `
 	    python parallel_download_gdocs.py
 	    pdflatex paper.tex
 	    
-This will download three Google Docs LaTeX files (specified in `parallel_download_gdocs.py`) and then run
+This will download three Google Docs LaTeX files specified in `parallel_download_gdocs.py` and run
 `pdflatex` to compile them into `paper.pdf`.
 
 Note that some of files required by the LaTeX document (e.g., `sigchi.cls` and `figures/nerd-cat.jpg`)
 are stored locally, not in Google Docs. So you do not need to put everything in the cloud.
 
-Here is how to use these scripts for simultaneous LaTeX editing by multiple authors:
+
+### Collaborative LaTeX workflow
+
+Here is how multiple people can simulataneously edit and compile LaTeX files using these scripts:
 
 1. Create a Google Drive directory and make it editable by anyone with the link
 2. Create a Dropbox folder shared amongst all co-authors.
@@ -72,7 +75,7 @@ Here is how to use these scripts for simultaneous LaTeX editing by multiple auth
 7. To compile a PDF, run `make` in the shared Dropbox folder (see above).
 
 
-#### Benefits
+The benefits of this workflow over traditional version control systems are:
 
 - lack of merge conflicts
 - leaving comments in Google Docs margins
@@ -80,11 +83,12 @@ Here is how to use these scripts for simultaneous LaTeX editing by multiple auth
 - in-document chat
 - revision history diff view is good (as long as each individual LaTeX file is not huge)
 
-#### Drawbacks
 
+However, some drawbacks are:
+
+- cannot use your own favorite text editor
 - no LaTeX syntax highlighting in Google Docs editor
-- requires Internet access to write (it is possible to write offline, but then merge conflicts can result)
+- requires Internet access to write in Google Docs (it is possible to write offline, but then merge conflicts can result)
 - navigating through a long document feels slow (but section headings and Table of Contents help)
-
 
 
