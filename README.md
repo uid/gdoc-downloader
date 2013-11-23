@@ -1,8 +1,10 @@
 gdoc-downloader
 ===============
 
-`gdoc2latex.py` is a Python script that downloads Google Docs as plain-text files,
-which enables collaborative workflows such as multiple people editing the same LaTeX files.
+`gdoc2latex.py` is a Python script that downloads Google Docs as plain text files
+(with LaTeX markup), which enables collaborative workflows. For example, co-authors
+can simultaneously edit the same LaTeX files without fear of merge conflicts.
+
 
 ### Basic usage
 
@@ -54,12 +56,17 @@ Run `make` in the top-level directory to execute the following contents of the `
 	    pdflatex paper.tex
 	    
 This will download three Google Docs LaTeX files (specified in `parallel_download_gdocs.py`) and then run
-`pdflatex` to compile them into `paper.pdf`. Note that style files such as `sigchi.cls` and image files
-such as `figures/nerd-cat.jpg` are stored locally, not in Google Docs.
+`pdflatex` to compile them into `paper.pdf`.
 
-1. Create a Google Drive directory and make it editable by anyone with the link, then create individual documents representing LaTeX files ([example](https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit))
+Note that style files such as `sigchi.cls` and image files such as `figures/nerd-cat.jpg` are stored locally,
+not in Google Docs.
+
+Here is an example collaborative workflow that these scripts enable:
+
+1. Create a Google Drive directory and make it editable by anyone with the link
 2. Create a Dropbox folder shared among all co-authors.
 3. Put the scripts in this repository into the shared Dropbox folder.
 4. Put auxiliary files (e.g., style and image files) into the shared Dropbox folder.
-5. Now whenever you want to compile LaTeX into PDF, run `make`, which downloads all of the Google Docs in parallel, saves them locally as *.tex files, and runs `pdflatex` to compile everything into a PDF.
-
+5. Create an arbitrary number of Google Docs representing LaTeX files ([example](https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit)), and add their URLs and filenames to `parallel_download_gdocs.py`.
+6. Now all co-authors can simultaneously edit without conflicts.
+7. To compile a PDF, run `make` in the shared Dropbox folder (see above).
