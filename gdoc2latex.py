@@ -1,3 +1,6 @@
+# Author: Rob Miller
+# Other contributors: Jeff Bigham, Philip Guo
+
 from HTMLParser import HTMLParser, HTMLParseError
 from htmlentitydefs import name2codepoint
 import re, json, sys, urllib2
