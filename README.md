@@ -77,9 +77,9 @@ Here is how multiple people can simulataneously edit and compile LaTeX files usi
 The benefits of this workflow over traditional version control systems are:
 
 - lack of merge conflicts
-- leaving comments in Google Docs margins
-- seeing everyone's cursors
-- in-document chat
+- seeing everyone's edit cursors
+- comments and todos in Google Docs margins
+- in-document chat window
 - revision history diff view is good (as long as each individual LaTeX file is not huge)
 
 
