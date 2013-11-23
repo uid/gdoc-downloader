@@ -31,7 +31,7 @@ Run:
 
     python parallel_download_gdocs.py
     
-to download a set of Google Docs to your computer in parallel, which runs faster than running
+to download a set of Google Docs to your computer in parallel, which is faster than running
 `gdoc2latex.py` separately for each file. Customize the `files` list in `parallel_download_gdocs.py` to
 specify which files to download. Here is an example configuration:
 
@@ -41,8 +41,8 @@ specify which files to download. Here is an example configuration:
         ('https://docs.google.com/document/d/1Nt8d_-mwu2z1S1-zgakHxFxb246ZJu2DkN6BwwC0roY/edit', 'conclusion.tex'),
     ]
 
-Running this script will download the first file and save it as `paper.tex`, the second one as `intro.tex`, and the
-third one as `conclusion.tex`.
+Running this script will download the first file and save it as `paper.tex`, the second as `intro.tex`, and the
+third as `conclusion.tex`.
 
 This script terminates only when **all** of the files have been downloaded.
 
@@ -58,15 +58,33 @@ Run `make` in the top-level directory to execute the following contents of the `
 This will download three Google Docs LaTeX files (specified in `parallel_download_gdocs.py`) and then run
 `pdflatex` to compile them into `paper.pdf`.
 
-Note that style files such as `sigchi.cls` and image files such as `figures/nerd-cat.jpg` are stored locally,
-not in Google Docs.
+Note that some of files required by the LaTeX document (e.g., `sigchi.cls` and `figures/nerd-cat.jpg`)
+are stored locally, not in Google Docs. So you do not need to put everything in the cloud.
 
-Here is an example collaborative workflow that these scripts enable:
+Here is how to use these scripts for simultaneous LaTeX editing by multiple authors:
 
 1. Create a Google Drive directory and make it editable by anyone with the link
-2. Create a Dropbox folder shared among all co-authors.
+2. Create a Dropbox folder shared amongst all co-authors.
 3. Put the scripts in this repository into the shared Dropbox folder.
 4. Put auxiliary files (e.g., style and image files) into the shared Dropbox folder.
 5. Create an arbitrary number of Google Docs representing LaTeX files ([example](https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit)), and add their URLs and filenames to `parallel_download_gdocs.py`.
 6. Now all co-authors can simultaneously edit without conflicts.
 7. To compile a PDF, run `make` in the shared Dropbox folder (see above).
+
+
+#### Benefits
+
+- lack of merge conflicts
+- leaving comments in Google Docs margins
+- seeing everyone's cursors
+- in-document chat
+- revision history diff view is good (as long as each individual LaTeX file is not huge)
+
+#### Drawbacks
+
+- no LaTeX syntax highlighting in Google Docs editor
+- requires Internet access to write (it is possible to write offline, but then merge conflicts can result)
+- navigating through a long document feels slow (but section headings and Table of Contents help)
+
+
+
