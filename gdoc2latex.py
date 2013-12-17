@@ -171,6 +171,7 @@ def unicode_to_latex(text):
         (u'\u2019', "'"),
         (u'\u201c', "``"),
         (u'\u201d', "''"),
+        (u'\u2026', "..."),
         (u'\xa0', ' '), # no-break space
     ]
     for a, b in tr:
