@@ -62,6 +62,22 @@ Note that some of files required by the LaTeX document (e.g., `sigchi.cls` and `
 are stored locally, not in Google Docs. So you do not need to put everything in the cloud.
 
 
+
+### LaTeX syntax highlighting
+
+We include a Google Apps Script script that syntax-highlights the LaTeX syntax.  The script must be triggered by selecting the menu command `Syntax highlighting >> Highlight Latex syntax`.  It does not update automatically, so you have to select the command again whenever you've made edits.
+
+To install the highlighter:
+
+1. Find syntax-highlighter.gs in this repo and copy its contents to your clipboard
+2. In your Google Doc, go to `Tools >> Script editor`.
+3. Create a blank project.
+3. Paste the script code you copied from syntax-highlighter.gs into the script editor, and save it.
+4. Go back to your Google Doc and reload it in your browser.  You should now see the `Syntax highlighting` menu.
+
+It can be helpful to do manual syntax highlighting as well, for the benefit of yourself or your co-authors.  For example, you can downplay a passage of text by making it tiny or gray, or call attention to it by enlarging or reddening or yellow-highlighting it.
+
+
 ### Collaborative LaTeX workflow
 
 Here is how multiple people can simulataneously edit and compile LaTeX files using these scripts:
@@ -86,7 +102,6 @@ The benefits of this workflow over traditional version control systems are:
 However, some drawbacks are:
 
 - cannot use your own favorite text editor
-- no LaTeX syntax highlighting in Google Docs editor
 - requires Internet access to write in Google Docs (it is possible to write offline, but then merge conflicts can result)
 - navigating through a long document feels slow (but section headings and Table of Contents help)
 
