@@ -4,6 +4,7 @@
 from HTMLParser import HTMLParser, HTMLParseError
 from htmlentitydefs import name2codepoint
 import re, json, sys, urllib, urllib2
+import getpass
 
 def main():
     if len(sys.argv) < 2:
@@ -14,17 +15,22 @@ usage: python gdoc2latex.py <URL or .gdoc filename>
      example: python gdoc2latex.py test.gdoc
      example for private documents: python gdoc2latex.py https://docs.google.com/document/d/1yEyXxtEeQ5_E7PibjYpofPC6kP4jMG-EieKhwkK7oQE/edit USERNAME
 """
-    password=getpass.getpass()
-    html = fetchGoogleDoc(sys.argv[1],sys.argv[2],password)
+        sys.exit(1)
+
+    if len(sys.argv) == 2:
+        html = fetchGoogleDoc(sys.argv[1])
+    else:
+        password=getpass.getpass()
+        html = fetchGoogleDoc(sys.argv[1],sys.argv[2],password)
     text = html_to_text(html)
     latex = unicode_to_latex(text)
     sys.stdout.write(latex)
 
 
-def download_to_file(gdoc_url, out_filename):
+def download_to_file(gdoc_url, out_filename, email='', passwd=''):
     '''Downloads gdoc_url to your hard disk as out_filename'''
     print 'Downloading', gdoc_url
-    html = fetchGoogleDoc(gdoc_url)
+    html = fetchGoogleDoc(gdoc_url, email, passwd)
     text = html_to_text(html)
     latex = unicode_to_latex(text)
     with open(out_filename, 'w') as f:
@@ -44,7 +50,7 @@ def get_auth_token(email, password, source, service="wise"):
         return re.findall(r"Auth=(.*)", urllib2.urlopen(req).read())[0]
 
 
-def fetchGoogleDoc(urlOrGdocFile,email,password):
+def fetchGoogleDoc(urlOrGdocFile,email='',password=''):
     """
     Downloads a Google Doc identified either by a URL or by a local Google Drive .gdoc file
     and returns its contents as a text file.
