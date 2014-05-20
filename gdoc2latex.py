@@ -3,7 +3,7 @@
 
 from HTMLParser import HTMLParser, HTMLParseError
 from htmlentitydefs import name2codepoint
-import re, json, sys, urllib2
+import re, json, sys, urllib, urllib2
 
 def main():
     if len(sys.argv) < 2:
@@ -12,8 +12,10 @@ usage: python gdoc2latex.py <URL or .gdoc filename>
 
      example: python gdoc2latex.py https://docs.google.com/document/d/1yEyXxtEeQ5_E7PibjYpofPC6kP4jMG-EieKhwkK7oQE/edit
      example: python gdoc2latex.py test.gdoc
+     example for private documents: python gdoc2latex.py https://docs.google.com/document/d/1yEyXxtEeQ5_E7PibjYpofPC6kP4jMG-EieKhwkK7oQE/edit USERNAME
 """
-    html = fetchGoogleDoc(sys.argv[1])
+    password=getpass.getpass()
+    html = fetchGoogleDoc(sys.argv[1],sys.argv[2],password)
     text = html_to_text(html)
     latex = unicode_to_latex(text)
     sys.stdout.write(latex)
@@ -29,8 +31,20 @@ def download_to_file(gdoc_url, out_filename):
         f.write(latex)
     print 'Wrote', gdoc_url, 'to', out_filename
 
+	
+def get_auth_token(email, password, source, service="wise"):
+        url = "https://www.google.com/accounts/ClientLogin"
+        params = {
+                "Email": email, "Passwd": password,
+                "service": service,
+                "accountType": "HOSTED_OR_GOOGLE",
+                "source": source
+        }
+        req = urllib2.Request(url, urllib.urlencode(params))
+        return re.findall(r"Auth=(.*)", urllib2.urlopen(req).read())[0]
 
-def fetchGoogleDoc(urlOrGdocFile):
+
+def fetchGoogleDoc(urlOrGdocFile,email,password):
     """
     Downloads a Google Doc identified either by a URL or by a local Google Drive .gdoc file
     and returns its contents as a text file.
@@ -56,16 +70,25 @@ def fetchGoogleDoc(urlOrGdocFile):
     exportUrl = "https://docs.google.com/document/d/" + docId + "/export?format=html"
 
     # open a connection to it
-    conn = urllib2.urlopen(exportUrl)
-    if "ServiceLogin" in conn.geturl(): # we were redirected to a login -- doc isn't publicly viewable
-        raise Exception("""
-The google doc 
-  {url}
-is not publicly readable. It needs to be publicly 
-readable in order for this script to work.
-To fix this, visit the doc in your web browser, 
-and use Share >> Change... >> Anyone with Link >> can view.
-""".format(url = urlOrGdocFile))
+    if email != "":
+        headers = {
+            "Authorization": "GoogleLogin auth=" + get_auth_token(email,password,\
+                    "gdoc2latex.py"),
+            "GData-Version": "3.0"
+        }
+        req = urllib2.Request(exportUrl, \
+                headers=headers)
+        conn = urllib2.urlopen(req)
+    else:
+        conn = urllib2.urlopen(exportUrl)
+        if "ServiceLogin" in conn.geturl(): # we were redirected to a login -- doc isn't publicly viewable
+            raise Exception("""
+    The google doc 
+      {url}
+    is not publicly readable. To download it,
+    give your email and password as arguments
+    when running this program.
+    """.format(url = urlOrGdocFile))
 
     # download the html
     raw = conn.read()
