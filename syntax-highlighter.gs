@@ -1,5 +1,6 @@
 // Syntax highlighter for LaTeX syntax in Google Docs.
 // See README.md for installation and usage instructions.
+// original author: Krzysztof Gajos
 
 /**
  * The onOpen function runs automatically when the Google Docs document is
