@@ -115,7 +115,7 @@ def html_to_text(html):
     Also translates entities and char refs into unicode characters.
     """
     html = re.sub(r'^.*?BEGIN_DOCUMENT', '', html, 1)
-    html = re.sub(r'<a href="#cmnt_ref.{1,30}\[a\].*', '', html, 1) # for section hyperlinks
+    html = re.sub(r'<a href="#cmnt_ref.{1,30}\[a\].*', '', html, 1) # for comments at end of document
     html = re.sub(r'END_DOCUMENT.*', '', html, 1)
 
     parser = _HTMLToText()
@@ -141,8 +141,8 @@ class _HTMLToText(HTMLParser):
         attrsDict = self.to_dict(attrs)
         if tag in ['script', 'style', 'head']:
             self.hide_output_nesting_level = 1
-        elif tag == "a" and "name" in attrsDict and attrsDict["name"].startswith("cmnt_"):
-            # found a Google Doc comment -- remove it
+        elif tag == "a" and "id" in attrsDict and attrsDict["id"].startswith("cmnt"):
+            # found a Google Doc comment reference -- remove it
             self.hide_output_nesting_level = 1
         elif self.hide_output_nesting_level > 0:
             self.hide_output_nesting_level += 1
