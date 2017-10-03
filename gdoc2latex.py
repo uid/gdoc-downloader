@@ -59,7 +59,7 @@ def fetchGoogleDoc(urlOrGdocFile,email='',password=''):
     # find the doc url
     if urlOrGdocFile.startswith("https://"):
         url = urlOrGdocFile
-    elif urlOrGdocFile.endswith(".gdoc"):
+    elif urlOrGdocFile.endswith(".gdoc") or urlOrGdocFile.endswith(".gddoc"):
         filename = urlOrGdocFile
         f = open(filename, "r")
         content = json.load(f)
@@ -69,7 +69,11 @@ def fetchGoogleDoc(urlOrGdocFile,email='',password=''):
         raise Exception(str(urlOrGdocFile) + " not a google doc URL or .gdoc filename")
     # pull out the document id
     try:
-        docId = re.search("/document/d/([^/]+)/", url).group(1)
+        result = re.search("/document/d/([^/]+)/|/open\?id=([^&/]+)", url)
+        docId = result.group(1) or result.group(2)
+        # Two possible formats (2017-10-03):
+        # https://drive.google.com/open?id=idididid
+        # https://docs.google.com/document/d/idididid/edit?usp=sharing
     except Exception:
         raise Exception("can't find a google document ID in " + str(urlOrGdocFile))
     # construct an export URL
