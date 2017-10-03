@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+# gdoc2latex.py uses Python 2.7 syntax.
 
 # Note that the Google Drive REST API v3 is great for downloading files in a range of formats
 # using the HTTP Accept header (e.g. Accept: text/plain).
